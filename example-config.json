@@ -1,0 +1,6 @@
+{
+    "LdapServer": {
+        "URL":"ldaps://YOUR_LDAP_SERVER:636"
+    },
+    "BaseDN": "ou=People,dc=example,dc=com"
+}
