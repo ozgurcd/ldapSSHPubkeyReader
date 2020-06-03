@@ -23,6 +23,7 @@ func readConfig(config *Config) {
 	jsonFile, err := os.Open("ldapPubKeyReader.json")
 	if err != nil {
 		fmt.Println(err)
+		os.Exit(-1)
 	}
 	defer jsonFile.Close()
 
