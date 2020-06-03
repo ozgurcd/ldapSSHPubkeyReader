@@ -18,7 +18,7 @@ func doSearch(config *Config, uid string) {
 	}
 	defer l.Close()
 
-	filter := "(uid=" + uid + ")"
+	filter := fmt.Sprintf("(uid=%s)", uid)
 	result, err := l.Search(ldap.NewSearchRequest(
 		config.BaseDN,
 		ldap.ScopeWholeSubtree,
@@ -36,8 +36,12 @@ func doSearch(config *Config, uid string) {
 		os.Exit(-2)
 	}
 
-	//users := []string{}
-	for _, pkey := range result.Entries[0].GetAttributeValues("sshPublicKey") {
+	if len(result.Entries) == 0 {
+		log.Fatalf("Filter: [%s] produced no results\n", filter)
+		os.Exit(-1)
+	}
+
+	for _, pkey := range result.Entries[0].GetAttributeValues(config.PublicKeyAttribute) {
 		fmt.Printf("%s\n", pkey)
 	}
 }

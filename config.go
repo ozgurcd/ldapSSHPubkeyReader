@@ -14,8 +14,9 @@ type LDAPServer struct {
 
 // Config contains the LdapServer
 type Config struct {
-	LdapServer LDAPServer `json:"LdapServer"`
-	BaseDN     string     `json:"BaseDN"`
+	LdapServer         LDAPServer `json:"LdapServer"`
+	BaseDN             string     `json:"BaseDN"`
+	PublicKeyAttribute string     `json:"PublicKeyAttribute"`
 }
 
 func readConfig(config *Config) {
