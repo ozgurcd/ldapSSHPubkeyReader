@@ -1,10 +1,9 @@
 package main
 
 import (
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
-	"os"
+	"log"
+
+	"github.com/spf13/viper"
 )
 
 // LDAPServer contains LDAPAddress
@@ -20,13 +19,33 @@ type Config struct {
 }
 
 func readConfig(config *Config) {
-	jsonFile, err := os.Open("ldapPubKeyReader.json")
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(-1)
-	}
-	defer jsonFile.Close()
+	viper.SetConfigName("ldapPubKeyReader")
+	viper.SetConfigType("json")
+	viper.AddConfigPath("/etc/ssh")
+	viper.AddConfigPath("/etc")
+	viper.AddConfigPath(".")
 
-	byteValue, _ := ioutil.ReadAll(jsonFile)
-	json.Unmarshal(byteValue, &config)
+	err := viper.ReadInConfig()
+	if err != nil {
+		panic(err)
+	}
+
+	LDAPSERVER := viper.GetString("LdapServer.URL")
+	if LDAPSERVER == "" {
+		log.Fatal("LdapServer.URL variable is not defined in config file")
+	} else {
+		config.LdapServer.URL = LDAPSERVER
+	}
+	BASEDN := viper.GetString("BaseDN")
+	if BASEDN == "" {
+		log.Fatal("BaseDN variable is not defined in config file")
+	} else {
+		config.BaseDN = BASEDN
+	}
+	PUBLICKEYATTRIBUTE := viper.GetString("PublicKeyAttribute")
+	if PUBLICKEYATTRIBUTE == "" {
+		config.PublicKeyAttribute = "sshPublicKey"
+	} else {
+		config.PublicKeyAttribute = PUBLICKEYATTRIBUTE
+	}
 }

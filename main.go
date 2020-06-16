@@ -14,8 +14,10 @@ func main() {
 	}
 
 	// username is args[1]
+
 	var config Config
 
 	readConfig(&config)
 	doSearch(&config, args[1])
+
 }

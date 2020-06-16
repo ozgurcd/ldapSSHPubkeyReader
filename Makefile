@@ -2,7 +2,7 @@
 TARGET_ARCH=amd64
 #TARGET_OS=darwin
 TARGET_OS=linux
-OUTPUT=ldapPubkeyReader
+OUTPUT=ldapPubKeyReader
 LDFLAGS=-ldflags '-w -s'
 
 
