@@ -1,6 +1,6 @@
 # ldapSSHPubkeyReader
 
-OpenSSH relies on an external application to provide SSH keys when AuthorizedKeysCommand directive used. In order to use SSH with keys stored in LDAP, a suitable script or program needs to provide the keys. Traditionally, some shell script that calls ldapsearch is being used for this purpose.
+OpenSSH relies on an external application to provide SSH keys when AuthorizedKeysCommand directive is used. In order to use SSH with keys stored in LDAP, a suitable script or program needs to provide the keys. Traditionally, some shell script that calls ldapsearch is being used for this purpose.
 
 This go program can be used to fullfill the same need, only faster and in a lightweight manner.
 
@@ -12,7 +12,11 @@ Please note, LDFLAGS is currently set to -ldflags '-w -s', which produces a smal
 
 ### Configuration File
 
-It reads the configuration file "ldapPubKeyReader.json" from the same directory it is located. In the future versions, there will be multiple locations it will look for
+It reads the configuration file "ldapPubKeyReader.json" from the following directories:
+
+/etc/ldapPubKeyReader.json
+/etc/ssh/ldapPubKeyReader.json
+./ldapPubKeyReader.json (relative path to binaries location)
 
 ### Running
 
