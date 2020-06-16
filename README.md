@@ -22,7 +22,7 @@ It reads the configuration file "ldapPubKeyReader.json" from the following direc
 
 ### Running
 
-This program requires one argument as ldap uid and dumps all of the users public keys to stdout, as SSHD requires. Also, currently it is ignoring any SSL based errors (such as unknown CA), I am planning to make it optional in the future.
+This program requires one argument as ldap uid and dumps all of the users public keys to stdout, as SSHD requires. 
 
 
 

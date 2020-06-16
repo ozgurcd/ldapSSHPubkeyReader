@@ -12,7 +12,7 @@ import (
 func doSearch(config *Config, uid string) {
 	l, err := ldap.DialURL(
 		config.LdapServer.URL,
-		ldap.DialWithTLSConfig(&tls.Config{InsecureSkipVerify: true}))
+		ldap.DialWithTLSConfig(&tls.Config{InsecureSkipVerify: config.IgnoreInsecureCertificates}))
 	if err != nil {
 		log.Fatal(err)
 	}

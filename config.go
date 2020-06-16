@@ -13,9 +13,10 @@ type LDAPServer struct {
 
 // Config contains the LdapServer
 type Config struct {
-	LdapServer         LDAPServer `json:"LdapServer"`
-	BaseDN             string     `json:"BaseDN"`
-	PublicKeyAttribute string     `json:"PublicKeyAttribute"`
+	LdapServer                 LDAPServer `json:"LdapServer"`
+	BaseDN                     string     `json:"BaseDN"`
+	PublicKeyAttribute         string     `json:"PublicKeyAttribute"`
+	IgnoreInsecureCertificates bool       `json:"IgnoreInsecureCertificates"`
 }
 
 func readConfig(config *Config) {
@@ -48,4 +49,6 @@ func readConfig(config *Config) {
 	} else {
 		config.PublicKeyAttribute = PUBLICKEYATTRIBUTE
 	}
+	IGNOREINSECURECERTIFICATES := viper.GetBool("IgnoreInsecureCertificates")
+	config.IgnoreInsecureCertificates = IGNOREINSECURECERTIFICATES
 }
