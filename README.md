@@ -14,9 +14,11 @@ Please note, LDFLAGS is currently set to -ldflags '-w -s', which produces a smal
 
 It reads the configuration file "ldapPubKeyReader.json" from the following directories:
 
+```
 /etc/ldapPubKeyReader.json
 /etc/ssh/ldapPubKeyReader.json
 ./ldapPubKeyReader.json (relative path to binaries location)
+```
 
 ### Running
 
