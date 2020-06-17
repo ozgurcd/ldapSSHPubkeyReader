@@ -27,7 +27,7 @@ func doSearch(config *Config, uid string) {
 		0,
 		false,
 		filter,
-		[]string{"sshPublicKey"},
+		[]string{config.PublicKeyAttribute},
 		nil,
 	))
 
