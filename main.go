@@ -13,11 +13,17 @@ func main() {
 		os.Exit(-1)
 	}
 
-	// username is args[1]
-
 	var config Config
 
-	readConfig(&config)
-	doSearch(&config, args[1])
+	err := readConfig(&config)
+	if err != nil {
+		fmt.Printf("Error: %s\n", err.Error())
+		os.Exit(-1)
+	}
 
+	err = doSearch(&config, args[1])
+	if err != nil {
+		fmt.Printf("Error: %s\n", err.Error())
+		os.Exit(-2)
+	}
 }

@@ -3,18 +3,25 @@ package main
 import (
 	"crypto/tls"
 	"fmt"
-	"log"
-	"os"
 
-	"github.com/go-ldap/ldap"
+	"github.com/go-ldap/ldap/v3"
 )
 
-func doSearch(config *Config, uid string) {
+func doSearch(config *Config, uid string) error {
+	if config.LdapServer.URL == "" || config.BaseDN == "" || config.PublicKeyAttribute == "" {
+		return fmt.Errorf("invalid LDAP configuration")
+	}
+
 	l, err := ldap.DialURL(
 		config.LdapServer.URL,
-		ldap.DialWithTLSConfig(&tls.Config{InsecureSkipVerify: config.IgnoreInsecureCertificates}))
+		ldap.DialWithTLSConfig(
+			&tls.Config{
+				InsecureSkipVerify: config.IgnoreInsecureCertificates,
+			},
+		),
+	)
 	if err != nil {
-		log.Fatal(err)
+		return fmt.Errorf("failed to dial LDAP server: %w", err)
 	}
 	defer l.Close()
 
@@ -30,18 +37,17 @@ func doSearch(config *Config, uid string) {
 		[]string{config.PublicKeyAttribute},
 		nil,
 	))
-
 	if err != nil {
-		log.Fatal(err)
-		os.Exit(-2)
+		return fmt.Errorf("failed to search LDAP server: %w", err)
 	}
 
 	if len(result.Entries) == 0 {
-		log.Fatalf("Filter: [%s] produced no results\n", filter)
-		os.Exit(-1)
+		return fmt.Errorf("Filter: [%s] produced no results\n", filter)
 	}
 
 	for _, pkey := range result.Entries[0].GetAttributeValues(config.PublicKeyAttribute) {
 		fmt.Printf("%s\n", pkey)
 	}
+
+	return nil
 }

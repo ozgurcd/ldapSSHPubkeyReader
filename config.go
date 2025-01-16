@@ -1,7 +1,7 @@
 package main
 
 import (
-	"log"
+	"fmt"
 
 	"github.com/spf13/viper"
 )
@@ -19,7 +19,7 @@ type Config struct {
 	IgnoreInsecureCertificates bool       `json:"IgnoreInsecureCertificates"`
 }
 
-func readConfig(config *Config) {
+func readConfig(config *Config) error {
 	viper.SetConfigName("ldapPubKeyReader")
 	viper.SetConfigType("json")
 	viper.AddConfigPath("/etc/ssh")
@@ -28,18 +28,18 @@ func readConfig(config *Config) {
 
 	err := viper.ReadInConfig()
 	if err != nil {
-		panic(err)
+		return fmt.Errorf("failed to read config file: %w", err)
 	}
 
 	LDAPSERVER := viper.GetString("LdapServer.URL")
 	if LDAPSERVER == "" {
-		log.Fatal("LdapServer.URL variable is not defined in config file")
+		return fmt.Errorf("LdapServer.URL variable is not defined in config file")
 	} else {
 		config.LdapServer.URL = LDAPSERVER
 	}
 	BASEDN := viper.GetString("BaseDN")
 	if BASEDN == "" {
-		log.Fatal("BaseDN variable is not defined in config file")
+		return fmt.Errorf("BaseDN variable is not defined in config file")
 	} else {
 		config.BaseDN = BASEDN
 	}
@@ -51,4 +51,6 @@ func readConfig(config *Config) {
 	}
 	IGNOREINSECURECERTIFICATES := viper.GetBool("IgnoreInsecureCertificates")
 	config.IgnoreInsecureCertificates = IGNOREINSECURECERTIFICATES
+
+	return nil
 }
