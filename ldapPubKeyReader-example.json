@@ -1,8 +1,22 @@
 {
-    "LdapServer": {
-        "URL":"ldaps://YOUR_LDAP_SERVER:636"
+    "ldap_server": {
+        "url": "ldaps://YOUR_LDAP_SERVER:636",
+        "bind_dn": "",
+        "bind_password": "",
+        "connection_timeout": "10s",
+        "search_timeout": "30s",
+        "max_retries": 3,
+        "retry_delay": "1s"
     },
-    "BaseDN": "ou=People,dc=example,dc=com",
-    "PublicKeyAttribute": "sshPublicKey",
-    "IgnoreInsecureCertificates": false
+    "base_dn": "ou=People,dc=example,dc=com",
+    "public_key_attribute": "sshPublicKey",
+    "user_attribute": "uid",
+    "search_filter": "(%s=%s)",
+    "tls": {
+        "insecure_skip_verify": false,
+        "cert_file": "",
+        "key_file": "",
+        "ca_file": ""
+    },
+    "debug": false
 }
